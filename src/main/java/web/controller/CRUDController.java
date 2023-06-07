@@ -29,46 +29,77 @@ public class CRUDController {
         model.addAttribute("messages", messages);
         return "index";
     }
+
     @GetMapping("/table")
-    public String userList(Model model) {
+    public String userList(Model model, User user) {
         model.addAttribute("usersList", dao.getAllUsers());
+        model.addAttribute("user",user);
         return "table";
     }
 
-    @ModelAttribute("getUser")
-    public User getUser() {
-        return new User();
-    }
-
-    @PostMapping(value = "/table")
-    public String saveUser(
-            @ModelAttribute("getUser") User user,
-            BindingResult bindingResult, ModelMap model) {
-        if (bindingResult.hasErrors()){
-            model.addAttribute("usersList", dao.getAllUsers());
-            return "table";
-        }
+    @PostMapping("/table")
+    public String createUser(User user) {
         dao.saveUser(user);
-
         return "redirect:/table";
     }
-
-    @PostMapping(value = "/table/{id}")
-    public String updateUser(
-            @ModelAttribute("getUser") User user,
-            BindingResult bindingResult, ModelMap model) {
-        if (bindingResult.hasErrors()){
-            model.addAttribute("usersList", dao.getAllUsers());
-            return "table";
-        }
-        dao.updateUser(user);
-
+    @GetMapping("/table/{id}")
+    public String updateUser(@PathVariable("id")Long id, Model model) {
+        User user = dao.getUserById(id);
+        model.addAttribute("user", user);
         return "redirect:/table";
     }
-
     @DeleteMapping("/table/{id}")
     public String deleteUser(@PathVariable("id") int id) {
         dao.removeUserById(id);
         return "redirect:/table";
     }
+    @PostMapping("/table/{id}")
+    public String updateUser(User user) {
+        dao.updateUser(user);
+        return "redirect:/table";
+    }
 }
+    // ver1.0 тоже рабочая...
+
+//    @GetMapping("/table")
+//    public String userList(Model model) {
+//        model.addAttribute("usersList", dao.getAllUsers());
+//        return "table";
+//    }
+//
+//    @ModelAttribute("getUser")
+//    public User getUser() {
+//        return new User();
+//    }
+//
+//    @PostMapping(value = "/table")
+//    public String saveUser(
+//            @ModelAttribute("getUser") User user,
+//            BindingResult bindingResult, ModelMap model) {
+//        if (bindingResult.hasErrors()){
+//            model.addAttribute("usersList", dao.getAllUsers());
+//            return "table";
+//        }
+//        dao.saveUser(user);
+//
+//        return "redirect:/table";
+//    }
+//
+//    @PostMapping(value = "/table/{id}")
+//    public String updateUser(
+//            @ModelAttribute("getUser") User user,
+//            BindingResult bindingResult, ModelMap model) {
+//        if (bindingResult.hasErrors()){
+//            model.addAttribute("usersList", dao.getAllUsers());
+//            return "table";
+//        }
+//        dao.updateUser(user);
+//
+//        return "redirect:/table";
+//    }
+//
+//    @DeleteMapping("/table/{id}")
+//    public String deleteUser(@PathVariable("id") int id) {
+//        dao.removeUserById(id);
+//        return "redirect:/table";
+//    }

@@ -24,49 +24,49 @@
     </thead>
     <tr>
         <tbody>
-    <tr th:each="user : ${usersList}">
-        <td th:utext="${user.getId()}"></td>
-        <td th:utext="${user.getName()}"></td>
-        <td th:utext="${user.getAge()}"></td>
-        <td th:utext="${user.getEmail()}"></td>
+    <tr th:each="tuser : ${usersList}">
+        <td th:utext="${tuser.getId()}"></td>
+        <td th:utext="${tuser.getName()}"></td>
+        <td th:utext="${tuser.getAge()}"></td>
+        <td th:utext="${tuser.getEmail()}"></td>
         <td>
             <!-- Button trigger modal -->
             <button type="submit"
                     class="btn btn-primary"
                     data-toggle="modal"
-                    th:attr="data-target='#changeModal'+${user.id}">
+                    th:attr="data-target='#changeModal'+${tuser.id}">
                 Edit User
             </button>
 
-<!--      Решил заморочиться с модальными окнами, через @GetMapping тоже делал, но так меньше на одну страницу =)-->
+<!--      Решил заморочиться с модальными окнами, через @GetMapping на другие страницы, тоже делал, но так меньше на одну =)-->
 
             <!-- Modal -->
-            <div class="modal fade"  th:attr="id='changeModal'+${user.id}" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel" aria-hidden="true">
+            <div class="modal fade" th:attr="id='changeModal'+${tuser.id}" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="changeModalLabel">Edit User</h5>
                         </div>
                         <div class="modal-body">
-                            <form th:attr="id='change-form'+${user.id}" id="" th:action="@{table/{id}(id=${user.id})}" th:method="POST" th:object="${getUser}">
+                            <form th:attr="id='change-form'+${tuser.id}" action="#" th:action="@{table/{id}(id=${tuser.id})}" th:method="POST" th:object="${user}">
 
                                 <div class="col-sm-6">
                                     <label for="changeFirstName" class="form-label">First name</label>
-                                    <input type="text" th:field="*{name}" class="form-control"  id="changeFirstName"  th:placeholder="${user.getName()}" required>
+                                    <input type="text" th:field="*{name}" class="form-control" id="changeFirstName" th:placeholder="${tuser.getName()}" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="changeAge" class="form-label" >Age</label>
-                                    <input type="text" th:field="*{age}"  class="form-control" id="changeAge" th:placeholder="${user.age}" pattern="[0-9]{1,3}"  required>
+                                    <input type="text" th:field="*{age}" class="form-control" id="changeAge" th:placeholder="${tuser.getAge()}" pattern="[0-9]{1,3}" required>
                                     <div class="invalid-feedback">
                                         Valid Age is required.
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <label for="changeUserEmail" class="form-label">Email</label>
-                                    <input type="email" th:field="*{email}"  class="form-control" id="changeUserEmail" th:placeholder="${user.email}" required>
+                                    <input type="email" th:field="*{email}" class="form-control" id="changeUserEmail" th:placeholder="${tuser.email}" required>
                                     <div class="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
                                     </div>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button  type="submit" th:attr="form='change-form'+${user.id}"  class="btn btn-primary">Change</button>
+                            <button type="submit" th:attr="form='change-form'+${tuser.id}" class="btn btn-primary">Change</button>
                         </div>
                     </div>
                 </div>
@@ -83,8 +83,8 @@
 
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/table/{id}(id=${user.getId()})}">
-                <input class="btn btn-danger rounded-pill px-3" type="submit"  value="Delete">
+            <form th:method="DELETE" th:action="@{/table/{id}(id=${tuser.getId()})}">
+                <input class="btn btn-danger rounded px-3" type="submit"  value="Delete">
             </form>
         </td>
         </tbody>
@@ -107,7 +107,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="create-form" th:method="POST" th:action="@{/table}" th:object="${getUser}">
+                <form id="create-form" action="#" th:method="POST" th:action="@{/table}" th:object="${user}">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
                         <input type="text" class="form-control" th:field="*{name}" id="firstName" placeholder="Daniil" value="" required>

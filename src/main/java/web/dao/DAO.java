@@ -1,5 +1,6 @@
 package web.dao;
 
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface DAO {
 
     List<User> getAllUsers();
 
+    @Transactional
+    User getUserById(Long id);
 }

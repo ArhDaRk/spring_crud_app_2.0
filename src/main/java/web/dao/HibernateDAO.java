@@ -39,5 +39,9 @@ public class HibernateDAO implements DAO {
     public List<User> getAllUsers() {
         return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
-
+    @Override
+    @Transactional
+    public User getUserById(Long id) {
+        return  entityManager.find(User.class, id);
+    }
 }
