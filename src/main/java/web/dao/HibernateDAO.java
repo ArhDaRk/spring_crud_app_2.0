@@ -17,13 +17,12 @@ public class HibernateDAO implements DAO {
     @Transactional
     public void saveUser(User user) {
         entityManager.persist(user);
-        entityManager.close();
     }
 
     @Override
     @Transactional
-    public void updateUser(User updateUser) {
-        entityManager.merge(updateUser);
+    public void updateUser(User user) {
+            entityManager.merge(user);
     }
 
     @Override
@@ -36,11 +35,9 @@ public class HibernateDAO implements DAO {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
 
-    public User getUserById(int id) {
-        return entityManager.find(User.class, id);
-    }
 }

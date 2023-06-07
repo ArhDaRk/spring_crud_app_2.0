@@ -24,24 +24,72 @@
     </thead>
     <tr>
         <tbody>
-    <tr th:each="user : ${people}">
+    <tr th:each="user : ${usersList}">
         <td th:utext="${user.getId()}"></td>
         <td th:utext="${user.getName()}"></td>
         <td th:utext="${user.getAge()}"></td>
         <td th:utext="${user.getEmail()}"></td>
         <td>
-            <a class="btn btn-info rounded-pill px-3" th:href="@{/people/{id}/edit(id=${user.getId()})}">Edit</a>
+            <!-- Button trigger modal -->
+            <button type="submit"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    th:attr="data-target='#changeModal'+${user.id}">
+                Edit User
+            </button>
+
+<!--      Решил заморочиться с модальными окнами, через @GetMapping тоже делал, но так меньше на одну страницу =)-->
+
+            <!-- Modal -->
+            <div class="modal fade"  th:attr="id='changeModal'+${user.id}" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changeModalLabel">Edit User</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form th:attr="id='change-form'+${user.id}" id="" th:action="@{table/{id}(id=${user.id})}" th:method="POST" th:object="${getUser}">
+
+                                <div class="col-sm-6">
+                                    <label for="changeFirstName" class="form-label">First name</label>
+                                    <input type="text" th:field="*{name}" class="form-control"  id="changeFirstName"  th:placeholder="${user.getName()}" required>
+                                    <div class="invalid-feedback">
+                                        Valid first name is required.
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="changeAge" class="form-label" >Age</label>
+                                    <input type="text" th:field="*{age}"  class="form-control" id="changeAge" th:placeholder="${user.age}" pattern="[0-9]{1,3}"  required>
+                                    <div class="invalid-feedback">
+                                        Valid Age is required.
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="changeUserEmail" class="form-label">Email</label>
+                                    <input type="email" th:field="*{email}"  class="form-control" id="changeUserEmail" th:placeholder="${user.email}" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button  type="submit" th:attr="form='change-form'+${user.id}"  class="btn btn-primary">Change</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/people/{id}(id=${user.getId()})}">
+            <form th:method="DELETE" th:action="@{/table/{id}(id=${user.getId()})}">
                 <input class="btn btn-danger rounded-pill px-3" type="submit"  value="Delete">
             </form>
         </td>
         </tbody>
     </tr>
 </table>
-<br/>
-<hr/>
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -59,40 +107,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="crete-form" th:method="POST" th:action="@{/people}" th:object="${newUser}">
+                <form id="create-form" th:method="POST" th:action="@{/table}" th:object="${getUser}">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
                         <input type="text" class="form-control" th:field="*{name}" id="firstName" placeholder="Daniil" value="" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <label for="Age" class="form-label" >Age</label>
                         <input type="text" th:field="*{age}" class="form-control" id="Age" placeholder="18" value="" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">
-                            Valid last name is required.
+                        <div class="invalid-feedback">
+                            Valid Age name is required.
                         </div>
                     </div>
                     <div class="col-6">
                         <label for="userEmail" class="form-label">Email</label>
                         <input type="email" th:field="*{email}" class="form-control" id="userEmail" placeholder="you@example.com">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                        <div class="invalid-feedback">
                             Please enter a valid email address for shipping updates.
                         </div>
                     </div>
                 </form>
-<!--                    <input class="btn btn-info rounded-pill px-3" type="submit" value="Create!"/>-->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button  type="submit" form="crete-form" class="btn btn-primary">Add</button>
+                <button  type="submit" form="create-form" class="btn btn-primary">Add</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
 </body>
 </html>
