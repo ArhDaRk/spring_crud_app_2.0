@@ -1,14 +1,15 @@
-package web.dao;
+package web.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class HibernateDAO implements DAO {
+public class HibernateUserRepositoryImp implements UserService {
 
     @PersistenceContext()
     private EntityManager entityManager;
@@ -22,12 +23,12 @@ public class HibernateDAO implements DAO {
     @Override
     @Transactional
     public void updateUser(User user) {
-            entityManager.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     @Transactional
-    public void removeUserById(int id) {
+    public void removeUserById(Integer id) {
         User user = entityManager.find(User.class, id);
         if (user != null) {
             entityManager.remove(user);
@@ -39,9 +40,10 @@ public class HibernateDAO implements DAO {
     public List<User> getAllUsers() {
         return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
+
     @Override
     @Transactional
-    public User getUserById(Long id) {
-        return  entityManager.find(User.class, id);
+    public User getUserById(Integer id) {
+        return entityManager.find(User.class, id);
     }
 }

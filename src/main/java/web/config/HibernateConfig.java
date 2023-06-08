@@ -12,17 +12,18 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:db.properties")
-@ComponentScan(value  ="web")
+@ComponentScan(value = "web")
 public class HibernateConfig {
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
+    @Autowired
     public HibernateConfig(Environment environment) {
         this.environment = environment;
     }
@@ -32,6 +33,7 @@ public class HibernateConfig {
         vendorAdapter.setShowSql(true);
         return vendorAdapter;
     }
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
