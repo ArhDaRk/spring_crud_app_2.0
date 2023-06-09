@@ -1,14 +1,14 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import web.model.User;
 import web.repository.UserRepository;
 
 import java.util.List;
 
 
-@Repository
+@Service
 public class UserServiceImp implements web.service.UserService {
 
     private final UserRepository userRepository;
