@@ -38,8 +38,6 @@
                 Edit User
             </button>
 
-<!--      Решил заморочиться с модальными окнами, через @GetMapping на другие страницы, тоже делал, но так меньше на одну =)-->
-
             <!-- Modal -->
             <div class="modal fade" th:attr="id='changeModal'+${tuser.id}" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -48,7 +46,7 @@
                             <h5 class="modal-title" id="changeModalLabel">Edit User</h5>
                         </div>
                         <div class="modal-body">
-                            <form th:attr="id='change-form'+${tuser.id}" action="#" th:action="@{table/{id}(id=${tuser.id})}" th:method="POST" th:object="${user}">
+                            <form th:attr="id='change-form'+${tuser.id}" action="#" th:action="@{user-table/{id}(id=${tuser.id})}" th:method="POST" th:object="${user}">
 
                                 <div class="col-sm-6">
                                     <label for="changeFirstName" class="form-label">First name</label>
@@ -83,7 +81,7 @@
 
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/table/{id}(id=${tuser.getId()})}">
+            <form th:method="DELETE" th:action="@{/user-table/{id}(id=${tuser.getId()})}">
                 <input class="btn btn-danger rounded px-3" type="submit"  value="Delete">
             </form>
         </td>
@@ -107,7 +105,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="create-form" action="#" th:method="POST" th:action="@{/table}" th:object="${user}">
+                <form id="create-form" action="#" th:method="POST" th:action="@{/user-table}" th:object="${user}">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
                         <input type="text" class="form-control" th:field="*{name}" id="firstName" placeholder="Daniil" value="" required>

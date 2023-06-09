@@ -45,14 +45,14 @@ public class HibernateConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean EntityManagerFactory() {
         Properties props = new Properties();
         props.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         props.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
 
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setJpaVendorAdapter(vendorAdapter()); //??
+        factoryBean.setJpaVendorAdapter(vendorAdapter());
         factoryBean.setDataSource(dataSource());
         factoryBean.setJpaProperties(props);
         factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
@@ -63,7 +63,7 @@ public class HibernateConfig {
     @Bean
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(EntityManagerFactory().getObject());
         return transactionManager;
     }
 }
