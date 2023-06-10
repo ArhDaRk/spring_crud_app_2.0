@@ -8,6 +8,7 @@ import web.repository.UserRepository;
 import web.model.User;
 
 @Controller
+@RequestMapping("/user-table")
 public class UserController {
     private final UserRepository userRepository;
 
@@ -16,33 +17,33 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/user-table")
+    @GetMapping
     public String findAll(Model model, User user) {
         model.addAttribute("usersList", userRepository.getAllUsers());
         model.addAttribute("user", user);
         return "user-table";
     }
 
-    @PostMapping("/user-table")
+    @PostMapping
     public String createUser(User user) {
         userRepository.saveUser(user);
         return "redirect:/user-table";
     }
 
-    @GetMapping("/user-table/{id}")
+    @GetMapping("/{id}")
     public String getUpdateUser(@PathVariable("id") Integer id, Model model) {
         User user = userRepository.getUserById(id);
         model.addAttribute("user", user);
         return "redirect:/user-table";
     }
 
-    @DeleteMapping("/user-table/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Integer id) {
         userRepository.removeUserById(id);
         return "redirect:/user-table";
     }
 
-    @PostMapping("/user-table/{id}")
+    @PostMapping("/{id}")
     public String saveUpdateUser(User user) {
         userRepository.updateUser(user);
         return "redirect:/user-table";
